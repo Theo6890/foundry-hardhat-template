@@ -1,6 +1,7 @@
 {
     "name": "hardhat-foundry-template",
-    "version": "1.0.0",
+    "version": "1.1.0",
+    "private": true,
     "description": "The harmony between Foundry and Hardhat.",
     "directories": {
         "lib": "lib",
@@ -10,8 +11,64 @@
         "test": "hardhat test",
         "prepare": "husky install"
     },
-    "author": "Devan Non <devanon@chainstride.capital>",
     "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Theo6890/foundry-hardhat-template.git"
+    },
+    "release": {
+        "branches": [
+            "main",
+            "next",
+            {
+                "name": "beta",
+                "prerelease": true
+            },
+            {
+                "name": "alpha",
+                "prerelease": true
+            }
+        ],
+        "plugins": [
+            "@semantic-release/commit-analyzer",
+            "@semantic-release/release-notes-generator",
+            [
+                "@saithodev/semantic-release-backmerge",
+                {
+                    "backmergeBranches": [
+                        "dev"
+                    ]
+                }
+            ],
+            [
+                "@semantic-release/exec",
+                {
+                    "verifyReleaseCmd": "echo ${nextRelease.version} > VERSION"
+                }
+            ],
+            "@semantic-release/changelog",
+            "@semantic-release/npm",
+            "@semantic-release/git",
+            [
+                "@semantic-release/github",
+                {
+                    "successComment": false
+                }
+            ]
+        ],
+        "prepare": [
+            "@semantic-release/changelog",
+            "@semantic-release/npm",
+            {
+                "path": "@semantic-release/git",
+                "assets": [
+                    "package.json",
+                    "CHANGELOG.md"
+                ],
+                "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+            }
+        ]
+    },
     "devDependencies": {
         "@commitlint/cli": "^17.0.2",
         "@commitlint/config-conventional": "^17.0.2",
@@ -19,6 +76,10 @@
         "@nomiclabs/hardhat-ethers": "^2.0.6",
         "@nomiclabs/hardhat-etherscan": "^3.1.3",
         "@nomiclabs/hardhat-waffle": "^2.0.3",
+        "@saithodev/semantic-release-backmerge": "^3.2.0",
+        "@semantic-release/changelog": "^6.0.3",
+        "@semantic-release/exec": "^6.0.3",
+        "@semantic-release/git": "^10.0.1",
         "@typechain/ethers-v5": "^10.0.0",
         "@typechain/hardhat": "^6.0.0",
         "@types/chai": "^4.3.0",
@@ -31,8 +92,10 @@
         "hardhat": "^2.14.0",
         "hardhat-preprocessor": "^0.1.4",
         "husky": "^8.0.0",
+        "merkletreejs": "^0.3.9",
         "prettier": "^2.6.2",
         "prettier-plugin-solidity": "1.1.0",
+        "semantic-release": "^21.0.7",
         "solhint": "3.3.7",
         "solhint-plugin-prettier": "^0.0.5",
         "ts-node": "^10.7.0",
