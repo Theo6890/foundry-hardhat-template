@@ -1,0 +1,29 @@
+[profile.default]
+src = 'contracts'
+out = 'out'
+script = 'scripts'
+libs = ['lib', 'node_modules']
+solc_version = "0.8.19"
+gas_reports = ["*"]
+optimizer = true
+optimizer_runs = 20_000
+via_ir = true
+
+
+[profile.ci]
+verbosity = 4
+# avoid stack too deep issue due to permit2 using: `--via-ir`
+via_ir = true
+
+[profile.ci.fuzz]
+runs = 10
+
+[rpc_endpoints]
+fantom-testnet = "https://rpc.ankr.com/fantom_testnet"
+mumbai = "${MUMBAI_RPC}"
+
+[etherscan]
+fantom-testnet = { key = "${FMT_KEY}" }
+mumbai = { key = "${POLYGON_KEY}" }
+
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config

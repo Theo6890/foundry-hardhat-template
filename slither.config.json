@@ -1,0 +1,4 @@
+{
+    "filter_paths": "(lib/|test/)",
+    "detectors_to_exclude": "assembly,solc-version,naming-convention,timestamp"
+}
