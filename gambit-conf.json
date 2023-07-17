@@ -1,0 +1,10 @@
+[
+    {
+        "filename": "src/Contract.sol",
+        "solc-optimize": true,
+        "solc-remappings": [
+            "openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/",
+            "solmate/=lib/solmate/"
+        ]
+    }
+]
