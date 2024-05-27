@@ -2,18 +2,26 @@
 cache/
 out/
 broadcast/
+coverage-run/
+docs/
+dist/
 
 # JS
 node_modules/
+.openzeppelin/
 
 #Hardhat files
 cache_hardhat/
 artifacts/
 
 #Hardhat plugin files
-typechain-types/
+typechain-*/
 
 .DS_Store
 
 .bash_history
 .env
+secrets.json
+
+# VS Code
+.vscode-upload.json

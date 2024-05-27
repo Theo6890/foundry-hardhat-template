@@ -3,6 +3,7 @@ cache/
 out/
 broadcast/
 abi/
+docs/
 
 #JS
 node_modules
@@ -18,4 +19,7 @@ cache_hardhat/
 artifacts/
 
 #Hardhat plugin files
-typechain-types/
+typechain-*/
+
+.github/
+coverage-run/
