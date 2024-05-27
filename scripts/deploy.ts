@@ -1,9 +1,16 @@
-const hre = require('hardhat');
+import hre from 'hardhat';
 
-// npx hardhat run --network bscTest scripts/verify.js
+// npx hardhat run --network goerli scripts/deploy.js
 async function main() {
+    const VAULT = await hre.ethers.getContractFactory('VAULT');
+    const vault = await VAULT.deploy();
+
+    await vault.deployed();
+
+    console.log(`Deployed to ${vault.address}`);
+
     await hre.run('verify:verify', {
-        address: '',
+        address: vault.address,
         // see: https://hardhat.org/hardhat-runner/plugins/nomiclabs-hardhat-etherscan#using-programmatically
         constructorArguments: [],
     });
