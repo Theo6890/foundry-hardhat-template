@@ -1,22 +1,19 @@
 [profile.default]
-src = 'contracts'
+src = 'src'
 out = 'out'
 script = 'scripts'
 libs = ['lib', 'node_modules']
-solc_version = "0.8.19"
+solc_version = "0.8.23"
 gas_reports = ["*"]
 optimizer = true
 optimizer_runs = 20_000
-via_ir = true
-
 
 [profile.ci]
 verbosity = 4
-# avoid stack too deep issue due to permit2 using: `--via-ir`
-via_ir = true
 
 [profile.ci.fuzz]
 runs = 10
+fs_permissions = [{ access = "read", path = "./" }]
 
 [rpc_endpoints]
 fantom-testnet = "https://rpc.ankr.com/fantom_testnet"

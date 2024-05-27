@@ -2,4 +2,3 @@ forge-std/=lib/forge-std/src/
 hardhat/=node_modules/hardhat/
 openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/
 solmate/=lib/solmate/
-hegic/=lib/hegic-contracts/packages/
