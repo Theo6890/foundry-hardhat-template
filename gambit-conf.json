@@ -1,6 +1,6 @@
 [
     {
-        "filename": "src/Contract.sol",
+        "filename": "src/Vault.sol",
         "solc-optimize": true,
         "solc-remappings": [
             "openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/",
