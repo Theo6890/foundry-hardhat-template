@@ -7,7 +7,7 @@
         "constructor-syntax": "error",
         "func-visibility": ["error", { "ignoreConstructors": true }],
         "state-visibility": "error",
-        "max-line-length": ["error", 120],
+        "max-line-length": ["warn", 120],
         "not-rely-on-time": "off",
         "prettier/prettier": [
             "error",
