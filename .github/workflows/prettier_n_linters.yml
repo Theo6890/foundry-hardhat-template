@@ -2,12 +2,15 @@ name: prettier & linters
 
 on: [push, pull_request]
 
+env:
+  NODE_VERSION: '18.18.0'
+
 jobs:
     prettier:
         name: Prettier check
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
             - uses: actionsx/prettier@v2
               with:
                   args: --check .
@@ -28,13 +31,13 @@ jobs:
         name: Solhint check
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - name: Setup Node 16
-              uses: actions/setup-node@v3
+            - uses: actions/checkout@v3
+            - name: Setup Node 18.18.0
+              uses: actions/setup-node@v4
               with:
-                  node-version: '16.x'
+                  node-version: ${{ env.NODE_VERSION }}
                   cache: 'npm'
             - name: Install Node dependencies
-              run: npm i --unsafe-perm
+              run: npm i --unsafe-perm --legacy-peer-deps
             - name: Solhint check
-              run: npx solhint src/*.sol
+              run: npx solhint src/**/*.sol
