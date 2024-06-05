@@ -38,6 +38,6 @@ jobs:
                   node-version: ${{ env.NODE_VERSION }}
                   cache: 'npm'
             - name: Install Node dependencies
-              run: npm i --unsafe-perm
+              run: npm i --unsafe-perm --legacy-peer-deps
             - name: Solhint check
               run: npx solhint src/**/*.sol
