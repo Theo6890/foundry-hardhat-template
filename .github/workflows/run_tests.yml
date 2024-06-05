@@ -13,7 +13,7 @@ env:
 
 jobs:
     foundry:
-        name: Foundry project
+        name: Foundry Tests
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
