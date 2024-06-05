@@ -1,6 +1,10 @@
 name: testing actions
 
-on: [pull_request]
+on:
+  pull_request:
+  push:
+    branches:
+      - main
 
 env:
     FOUNDRY_PROFILE: ci
