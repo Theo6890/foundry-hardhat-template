@@ -5,6 +5,7 @@ on: [push, pull_request]
 env:
     FOUNDRY_PROFILE: ci
     SEED: '${{ secrets.SEED }}'
+    NODE_VERSION: '18.18.0'
 
 jobs:
     foundry:
@@ -21,8 +22,8 @@ jobs:
             - name: Foundry Libraries Install
               run: forge install --shallow
 
-            - name: Install packages (ehters required)
-              run: yarn install --immutable --immutable-cache --check-cache
+            # - name: Install packages (ehters required when running differential tests)
+              # run: yarn install --immutable --immutable-cache --check-cache
 
             - name: Run Forge tests
               run: forge test -vvv --ffi
@@ -31,12 +32,8 @@ jobs:
     slither:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
-              with:
-                  submodules: recursive
-
-            - name: Run Slither
-              uses: crytic/slither-action@v0.3.0
-              id: slither
-              with:
-                  fail-on: low
+          - uses: actions/checkout@v4
+          - uses: crytic/slither-action@v0.4.0
+            with:
+              node-version: ${{ env.NODE_VERSION }}
+              fail-on: low
