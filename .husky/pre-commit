@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx solhint src/*.sol test/*.sol --fix
+forge fmt --check
 npx prettier --check .
