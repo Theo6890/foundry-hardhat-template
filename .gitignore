@@ -5,6 +5,7 @@ broadcast/
 coverage-run/
 docs/
 dist/
+dependencies/
 
 # JS
 node_modules/

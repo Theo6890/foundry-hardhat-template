@@ -2,11 +2,16 @@
 src = 'src'
 out = 'out'
 script = 'scripts'
-libs = ['lib', 'node_modules']
+libs = ["dependencies"]
 solc_version = "0.8.23"
 gas_reports = ["*"]
 optimizer = true
 optimizer_runs = 20_000
+remappings = [
+  "forge-std/=dependencies/forge-std-1.11.0/src/",
+  "oz/=dependencies/@openzeppelin-contracts-5.5.0/",
+  "solmate/=dependencies/@solmate-5.5.0/src/",
+]
 
 [profile.ci]
 verbosity = 4
@@ -22,5 +27,10 @@ mumbai = "${MUMBAI_RPC}"
 [etherscan]
 fantom-testnet = { key = "${FMT_KEY}" }
 mumbai = { key = "${POLYGON_KEY}" }
+
+[dependencies]
+"@openzeppelin-contracts" = "5.5.0"
+solmate = "89365b880c4f3c786bdd453d4b8e8fe410344a69"
+forge-std = "1.14.0"
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
