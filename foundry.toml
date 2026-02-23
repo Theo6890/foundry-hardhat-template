@@ -7,9 +7,9 @@ solc = "0.8.26"
 ignored_warnings_from = ["dependencies"]
 gas_reports = ["*"]
 remappings = [
-    "forge-std/=dependencies/forge-std-1.11.0/src/",
+    "forge-std/=dependencies/forge-std-1.14.0/src/",
     "oz/=dependencies/@openzeppelin-contracts-5.5.0/",
-    "solmate/=dependencies/@solmate-5.5.0/src/",
+    "solmate/=dependencies/solmate-89365b880c4f3c786bdd453d4b8e8fe410344a69/src/",
 ]
 optimizer = true
 optimizer_runs = 20_000
