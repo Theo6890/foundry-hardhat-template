@@ -28,6 +28,15 @@ sort_imports = true
 runs = 10
 fs_permissions = [{ access = "read", path = "./" }]
 
+[soldeer]
+remappings_location = "config"
+
+[dependencies]
+"@openzeppelin-contracts" = "5.5.0"
+forge-std = "1.14.0"
+solady = "0.1.26"
+
+######################## NETWORK CONFIGURATION ########################
 [rpc_endpoints]
 fantom-testnet = "https://rpc.ankr.com/fantom_testnet"
 mumbai = "${MUMBAI_RPC}"
@@ -35,10 +44,5 @@ mumbai = "${MUMBAI_RPC}"
 [etherscan]
 fantom-testnet = { key = "${FMT_KEY}" }
 mumbai = { key = "${POLYGON_KEY}" }
-
-[dependencies]
-"@openzeppelin-contracts" = "5.5.0"
-forge-std = "1.14.0"
-solady = "0.1.26"
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
