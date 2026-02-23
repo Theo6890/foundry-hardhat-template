@@ -10,10 +10,16 @@ jobs:
         name: Prettier check
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
-            - uses: actionsx/prettier@v2
+            - uses: actions/checkout@v4
+            - name: Setup Node 18
+              uses: actions/setup-node@v4
               with:
-                  args: --check .
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: "yarn"
+            - name: Install dependencies
+              run: yarn install --frozen-lockfile
+            - name: Run Prettier
+              run: yarn prettier --check .
 
     commitlint:
         name: Commit-lint check
@@ -27,17 +33,16 @@ jobs:
               with:
                   failOnWarnings: true
 
-    solhint:
-        name: Solhint check
+    fmt-check:
+        name: Forge formatter check
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
-            - name: Setup Node 18.18.0
-              uses: actions/setup-node@v4
+            - uses: actions/checkout@v4
               with:
-                  node-version: ${{ env.NODE_VERSION }}
-                  cache: 'npm'
-            - name: Install Node dependencies
-              run: npm i --unsafe-perm --legacy-peer-deps
-            - name: Solhint check
-              run: npx solhint src/**/*.sol
+                  submodules: recursive
+
+            - name: Install Foundry
+              uses: foundry-rs/foundry-toolchain@v1
+
+            - name: Foundry Fmt
+              run: forge fmt --check

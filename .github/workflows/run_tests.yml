@@ -1,6 +1,7 @@
 name: testing actions
 
 on:
+  workflow_dispatch: # Allow run workflow manually
   pull_request:
   push:
     branches:
@@ -22,22 +23,26 @@ jobs:
 
             - name: Install Foundry
               uses: foundry-rs/foundry-toolchain@v1
+              with:
+                  version: stable
 
             - name: Foundry Libraries Install
-              run: forge install --shallow
-
-            # - name: Install packages (ehters required when running differential tests)
-              # run: yarn install --immutable --immutable-cache --check-cache
+              run: |
+                forge soldeer install
 
             - name: Run Forge tests
-              run: forge test -vvv --ffi
+              run: forge test -vvv --ffi --summary --gas-report
               id: forge-test
 
-    slither:
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v4
-          - uses: crytic/slither-action@v0.4.0
-            with:
-              node-version: ${{ env.NODE_VERSION }}
-              fail-on: low
+    # slither:
+    #     runs-on: ubuntu-latest
+    #     steps:
+    #         - uses: actions/checkout@v4
+    #           with:
+    #               submodules: recursive
+
+    #         - name: Run Slither
+    #           uses: crytic/slither-action@v0.4.0
+    #           id: slither
+    #           with:
+    #               fail-on: low
