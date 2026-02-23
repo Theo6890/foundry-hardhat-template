@@ -3,14 +3,14 @@ src = 'src'
 out = 'out'
 script = 'scripts'
 libs = ["dependencies"]
-solc_version = "0.8.23"
+solc_version = "0.8.26"
 gas_reports = ["*"]
 optimizer = true
 optimizer_runs = 20_000
 remappings = [
-  "forge-std/=dependencies/forge-std-1.11.0/src/",
-  "oz/=dependencies/@openzeppelin-contracts-5.5.0/",
-  "solmate/=dependencies/@solmate-5.5.0/src/",
+    "forge-std/=dependencies/forge-std-1.11.0/src/",
+    "oz/=dependencies/@openzeppelin-contracts-5.5.0/",
+    "solmate/=dependencies/@solmate-5.5.0/src/",
 ]
 
 [profile.ci]

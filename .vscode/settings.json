@@ -18,6 +18,6 @@
     },
     "solidity.packageDefaultDependenciesContractsDirectory": "src",
     "solidity.packageDefaultDependenciesDirectory": "lib",
-    "solidity.compileUsingRemoteVersion": "v0.8.23",
+    "solidity.compileUsingRemoteVersion": "v0.8.26",
     "workbench.editor.empty.hint": "hidden"
 }
