@@ -3,18 +3,26 @@ src = 'src'
 out = 'out'
 script = 'scripts'
 libs = ["dependencies"]
-solc_version = "0.8.26"
+solc = "0.8.26"
+ignored_warnings_from = ["dependencies"]
 gas_reports = ["*"]
-optimizer = true
-optimizer_runs = 20_000
 remappings = [
     "forge-std/=dependencies/forge-std-1.11.0/src/",
     "oz/=dependencies/@openzeppelin-contracts-5.5.0/",
     "solmate/=dependencies/@solmate-5.5.0/src/",
 ]
+optimizer = true
+optimizer_runs = 20_000
+evm_version = "cancun"
 
 [profile.ci]
 verbosity = 4
+
+[fmt]
+number_underscore = 'thousands'
+single_line_statement_blocks = 'single'
+ignore = ["contracts/"]
+sort_imports = true
 
 [profile.ci.fuzz]
 runs = 10
