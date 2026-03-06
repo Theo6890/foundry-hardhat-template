@@ -9,7 +9,7 @@
 
 | File | Scope | Rule IDs | Primary Consumers |
 |------|-------|----------|-------------------|
-| [instructions/solidity-style.md](instructions/solidity-style.md) | Naming, formatting, NatSpec, ordering, visibility, error handling | `STYLE-01` – `STYLE-13` | Contract agents, refactoring agents |
+| [instructions/solidity-style.md](instructions/solidity-style.md) | Naming, formatting, NatSpec, NatSpec tag grouping, struct field documentation, ordering, visibility, error handling, service boundaries | `STYLE-01` – `STYLE-13` | Contract agents, refactoring agents |
 | [instructions/testing.md](instructions/testing.md) | Test patterns, setup, mocks, fuzz, fork, assertions | `TEST-01` – `TEST-14` | Test agents, fuzz agents |
 | [instructions/git-workflow.md](instructions/git-workflow.md) | Commits, branches, PRs, formatting hooks | `GIT-01` – `GIT-04` | All agents that commit/push |
 | [instructions/architecture.md](instructions/architecture.md) | Design principles: composition, state machines, accounting, auth | `ARCH-01` – `ARCH-07` | Master agents, architecture agents |

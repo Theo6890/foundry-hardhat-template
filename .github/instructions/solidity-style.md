@@ -14,7 +14,7 @@
 | Abstract contracts | No special prefix/suffix           | `abstract contract MyLifecycle`             |
 | Interfaces         | `I` prefix + PascalCase            | `IMyContract`, `IMyAdmin`                   |
 | Libraries          | PascalCase matching purpose        | `MyContractStorage`, `StateChecker`         |
-| Errors library     | Always `Errors`                    | Single centralized library per domain group |
+| Errors library     | Service-prefixed PascalCase        | `MyContractErrors`, `VaultErrors`           |
 
 ## STYLE-02 · File Naming [MUST]
 
@@ -27,7 +27,7 @@
 | Upgrade scripts   | `ContractName.upgrade.s.sol`             | `MyContract.upgrade.s.sol`            |
 | Storage libs      | `ContractNameStorage.sol`                | `MyContractStorage.sol`               |
 | Types             | `ContractNameTypes.sol`                  | `MyContractTypes.sol`                 |
-| Errors            | `Errors.sol` (centralized)               | Single library for all domain errors  |
+| Errors            | `ContractNameErrors.sol`                 | `MyContractErrors.sol`                |
 | Mocks             | `ContractName_Mock.sol`                  | `MyContract_Mock.sol`                 |
 | Test setup        | `ContractName.setup.sol`                 | `MyContract.setup.sol`                |
 | Storage tests     | `ContractName.storages.t.sol`            | `MyContract.storages.t.sol`           |
@@ -55,7 +55,7 @@ import {MyBase} from "./MyBase.sol";
 
 // 4. Custom libraries, storage, types, errors
 import {MyStorage} from "./libs/MyStorage.sol";
-import {Errors} from "./libs/Errors.sol";
+import {MyContractErrors} from "./libs/MyContractErrors.sol";
 ```
 
 ## STYLE-04 · Function Naming [MUST]
@@ -64,7 +64,7 @@ import {Errors} from "./libs/Errors.sol";
 | ---------------- | -------------------------------------------------------------- | --------------------------------------------------- |
 | External/public  | `camelCase`                                                    | `claimTokens()`, `depositFunds()`                   |
 | Internal         | `_camelCase` (single underscore prefix)                        | `_checkAuth()`, `_setMerkleRoot()`                  |
-| Private          | `__camelCase` (double underscore prefix)                       | `__validateInput()`, `__computeSlot()`              |
+| Private          | `_camelCase` (single underscore prefix preferred)              | `_validateInput()`, `_computeSlot()`                |
 | View/getters     | `get` prefix                                                   | `getState()`, `getTotalDeposited()`                 |
 | Initializers     | `initialize()` top-level; `initX()` for sub-init              | `initialize()`, `initFundraise()`                   |
 | Storage load     | Always `load()`                                                | `MyStorage.load()`                                  |
@@ -88,15 +88,18 @@ import {Errors} from "./libs/Errors.sol";
 
 ## STYLE-07 · Errors [MUST]
 
-- **Centralized** in an `Errors` library for related contract groups.
+- Errors must be scoped per service, not shared across unrelated services.
+- Use a dedicated `ContractNameErrors` library for each top-level service or contract family.
 - Pattern: `ContractName__PascalCaseDescription` with double-underscore separator.
 
 ```solidity
-Errors.MyContract__ZeroAmount()
-Errors.MyContract__InvalidState(CurrentState)
-Errors.MyFactory__ZeroAdminAddress()
+MyContractErrors.MyContract__ZeroAmount()
+MyContractErrors.MyContract__InvalidState(CurrentState)
+MyFactoryErrors.MyFactory__ZeroAdminAddress()
 ```
 
+- Storage and types follow the same service boundary rule: prefer `MyContractStorage.sol` and `MyContractTypes.sol` over cross-service shared files unless the shared type is intentionally cross-domain.
+- Cross-references are allowed when logically needed, but ownership remains service-local.
 - Standalone module errors may be declared in interfaces or contracts directly.
 - OZ-inherited errors follow OZ style: `AccessManagerUnauthorizedAccount(address, uint64)`.
 
@@ -131,7 +134,67 @@ if (getEffectiveState(id) != EffectiveState.Open) {
 
 **Line length:** All comments must respect the same line-length limit as code (`foundry.toml` `[fmt]` settings; Foundry default is 120). When a `/// @dev` one-liner exceeds the limit, convert to a `/** @dev ... */` block.
 
+**Multi-line NatSpec:** Always use collapsible block NatSpec for multi-line comments:
+
+```solidity
+/**
+ * @title MyContract
+ * @notice Short description.
+ */
+```
+
+Do not use stacked multi-line `///` comments for contract-, library-, struct-, or function-level multi-line NatSpec.
+
+**Tag grouping order:** When a NatSpec block contains multiple tag categories, keep them in this order:
+
+1. `@title`
+2. `@notice` and `@dev` together
+3. `@param` entries together
+4. `@return` entries together
+5. `@custom:*` entries together
+
+Leave exactly one blank line between each populated group.
+
+```solidity
+/**
+ * @title MyContract
+ *
+ * @notice Short description.
+ * @dev Extra implementation context.
+ *
+ * @param account Account being updated.
+ * @param amount Amount in asset units.
+ *
+ * @return success Whether the update succeeded.
+ *
+ * @custom:audit Uses pull-based settlement.
+ */
+```
+
 **Contract-level:** Every contract/abstract/library (not interfaces) has `@title` + `@notice`. Add `@custom:audit` when deviating from upstream.
+
+**Structs:** Put the NatSpec block immediately before the `struct` keyword.
+
+- Do not place routine field-by-field NatSpec comments inside the struct body.
+- When a field is not obvious without broader protocol context, document it in the struct-level NatSpec block.
+- Prefer an explicit field list in the block comment for non-obvious members, for example:
+
+```solidity
+/**
+ * @dev Persisted market data.
+ *
+ * @param state Stored lifecycle checkpoint used to derive the effective state.
+ * @param pendingReportedAt Timestamp of the latest pending report inside the correction window.
+ * @param feeAmount Fee amount snapshotted when the market resolves.
+ */
+struct MarketData {
+    MarketState state;
+    uint40 pendingReportedAt;
+    uint256 feeAmount;
+}
+```
+
+- Use `@param` entries selectively for the fields that need extra context; obvious fields do not need redundant explanations.
 
 **Interfaces:** No `@title`/`@notice` — the `interface` keyword is self-documenting.
 
