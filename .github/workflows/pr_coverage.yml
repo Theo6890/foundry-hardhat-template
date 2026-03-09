@@ -1,0 +1,46 @@
+############ Coverage in CI currently fail w/ `--ir-minimum` #############
+
+name: PR Coverage Report
+
+on:
+  workflow_dispatch: # Allow run workflow manually
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  FOUNDRY_PROFILE: ci
+  NODE_VERSION: "18.18.0"
+
+jobs:
+  coverage:
+    name: Coverage Report
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
+      - name: Setup Node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "yarn"
+
+      - name: Foundry Libraries Install
+        run: forge soldeer install
+
+      - name: Generate coverage report
+        run: forge coverage --report lcov
+ 
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: lcov.info
+          token: ${{ secrets.CODECOV_TOKEN }}
