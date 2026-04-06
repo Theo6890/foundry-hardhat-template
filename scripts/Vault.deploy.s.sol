@@ -5,6 +5,7 @@ import "forge-std/Script.sol";
 
 import {Vault} from "../src/Vault.sol";
 
+// forgefmt: disable-start
 /**
 * @dev forge script Vault_deploy \
         --rpc-url $BSC_RPC --broadcast \
@@ -21,6 +22,7 @@ import {Vault} from "../src/Vault.sol";
 *
 * @dev VRFCoordinatorV2Interface: https://docs.chain.link/docs/vrf-contracts/
 */
+// forgefmt: disable-end
 
 contract Vault_deploy is Script {
     function run() external {

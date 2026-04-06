@@ -1,0 +1,19 @@
+name: ${DEVCONTAINER_NAME}
+
+services:
+    devcontainer:
+        image: ${DEVCONTAINER_IMAGE}
+        container_name: ${DEVCONTAINER_NAME}
+        command: /bin/sh -c "while sleep 1000; do :; done"
+        environment:
+            DEVCONTAINER_GIT_USER_NAME: ${DEVCONTAINER_GIT_USER_NAME}
+            DEVCONTAINER_GIT_USER_EMAIL: ${DEVCONTAINER_GIT_USER_EMAIL}
+        volumes:
+            - type: volume
+              source: workspace
+              target: /workspace
+
+volumes:
+    workspace:
+        external: true
+        name: ${WORKSPACE_VOLUME}

@@ -1,0 +1,74 @@
+{
+    // Inspired by https://blog.theredguild.org/where-do-you-run-your-code/
+    // For format details, see https://aka.ms/devcontainer.json.
+    "name": "MOUNTED - Cyfrin's Solidity & Foundry DevContainer",
+    "dockerComposeFile": "compose.yml",
+    "service": "devcontainer",
+    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+    "initializeCommand": "sh ${localWorkspaceFolder}/.devcontainer/prepare-devcontainer.sh mounted",
+    // Features to add to the dev container. More info: https://containers.dev/features.
+    "features": {},
+    // Configure tool-specific properties.
+    "customizations": {
+        // Configure properties specific to VS Code.
+        "vscode": {
+            "extensions": [
+                "adpyke.codesnap",
+                "anthropic.claude-code",
+                "cookbookdev.vscode-cookbook",
+                "cyfrin.aderyn",
+                "eamodio.gitlens",
+                "esbenp.prettier-vscode",
+                "formulahendry.auto-rename-tag",
+                "github.copilot-chat",
+                "github.vscode-github-actions",
+                "github.vscode-pull-request-github",
+                "gruntfuggly.todo-tree",
+                "juanblanco.solidity",
+                "k--kato.intellij-idea-keybindings",
+                "mhutchie.git-graph",
+                "mikestead.dotenv",
+                "ms-vscode-remote.remote-containers",
+                "openai.chatgpt",
+                "pkief.material-icon-theme",
+                "redhat.vscode-yaml",
+                "sanjulaganepola.github-local-actions",
+                "tamasfe.even-better-toml",
+                "tintinweb.graphviz-interactive-preview",
+                "tintinweb.solidity-metrics",
+                "tintinweb.solidity-visual-auditor",
+                "tintinweb.vscode-ethover",
+                "tintinweb.vscode-solidity-language",
+                "tomoki1207.pdf",
+                "trailofbits.slither-vscode",
+                "trailofbits.weaudit",
+                "xabikos.javascriptsnippets"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "zsh",
+                "terminal.integrated.profiles.linux": {
+                    "zsh": {
+                        "path": "/usr/bin/zsh"
+                    }
+                }
+            }
+        }
+    },
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    // "forwardPorts": [3000],
+    // Use 'portsAttributes' to set default properties for specific forwarded ports.
+    // More info: https://containers.dev/implementors/json_reference/#port-attributes
+    // "portsAttributes": {
+    // 	"3000": {
+    // 		"label": "Hello Remote World",
+    // 		"onAutoForward": "notify"
+    // 	}
+    // },
+    // Use 'postCreateCommand' to run commands after the container is created.
+    // We're using a gist, but you can also reference the raw install-tool from your repo.
+    // Unless you mount the scripts folder as
+    "postCreateCommand": "echo Welcome to Cyfrin's dev-container. If you'd like to build your own, you can check out an article Cyfrin have created for you at their blog under https://www.cyfrin.io/blog/reduce-the-risk-of-cyber-attacks-isolated-dev-environments && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack install",
+    "postStartCommand": "sh .devcontainer/configure-git-identity.sh"
+    // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+    // "remoteUser": "root"
+}

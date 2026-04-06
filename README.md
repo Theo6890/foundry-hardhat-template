@@ -4,6 +4,30 @@ A DeFi project.
 
 ## Install
 
+### Preferred: Use The Devcontainer
+
+Prefer working inside the provided devcontainer instead of installing toolchains and running commands directly on your host machine.
+
+This is important for security: a devcontainer is not bulletproof, and Docker is not a true sandbox, but isolating dependencies and execution from your main OS environment can still reduce the attack surface and lower the impact of a compromised dependency, script, or tool.
+
+Available configurations:
+
+-   `.devcontainer/mounted/devcontainer.json`: mounts the local repository into the container workspace
+-   `.devcontainer/unmounted/devcontainer.json`: copies the workspace into a Docker volume instead of mounting it from the host
+
+The `unmounted` option is generally the safer default because it reduces direct host filesystem exposure. The `mounted` option is more convenient when you explicitly want a live bind mount from the host.
+
+In VS Code:
+
+1. Install the `Dev Containers` extension if it is not already installed.
+2. Run `Dev Containers: Open Folder in Container...`.
+3. Choose either `.devcontainer/unmounted/devcontainer.json` or `.devcontainer/mounted/devcontainer.json`.
+4. After the container starts, run dependency installation and project commands inside the container terminal.
+
+If you only need one recommendation, prefer `.devcontainer/unmounted/devcontainer.json` over local installation and local execution.
+
+### Local Installation
+
 ```bash
 yarn install && forge install
 ```
