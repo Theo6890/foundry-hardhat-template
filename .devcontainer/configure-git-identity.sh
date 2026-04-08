@@ -26,6 +26,10 @@ printf 'Global git user.email: %s\n' "$(git config --global --get user.email || 
 
 cd "$workspace_root"
 
-yarn install
+if [ -z "${FOUNDRY_SOLC:-}" ] && command -v solc >/dev/null 2>&1; then
+    export FOUNDRY_SOLC=$(command -v solc)
+fi
+
+pmg yarn install
 forge soldeer install
 forge b
