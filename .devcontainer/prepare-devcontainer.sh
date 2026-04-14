@@ -35,6 +35,15 @@ container_name="vsc-$repo_name"
 container_workspace_folder="/workspace"
 git_user_name=$(git config --global --get user.name 2>/dev/null || true)
 git_user_email=$(git config --global --get user.email 2>/dev/null || true)
+cache_volume="$container_name-cache"
+
+tmpfs_vscode_server="/home/vscode/.vscode-server:rw,exec,nosuid,size=768m,uid=1000,gid=1000"
+tmpfs_vscode_server_insiders="/home/vscode/.vscode-server-insiders:rw,exec,nosuid,size=256m,uid=1000,gid=1000"
+tmpfs_cache="/home/vscode/.cache:rw,nosuid,size=256m,uid=1000,gid=1000"
+tmpfs_config="/home/vscode/.config:rw,nosuid,size=128m,uid=1000,gid=1000"
+tmpfs_tmp="/tmp:rw,exec,nosuid,size=2g"
+tmpfs_var_tmp="/var/tmp:rw,exec,nosuid,size=2g"
+tmpfs_run="/run:rw,nosuid,size=128m"
 
 resolve_container_cli() {
     if [ -n "${DEVCONTAINER_CONTAINER_CLI:-}" ]; then
@@ -58,6 +67,15 @@ resolve_container_cli() {
 
 container_cli=$(resolve_container_cli)
 
+case "$(basename "$container_cli")" in
+    podman)
+        tmpfs_vscode_server="/home/vscode/.vscode-server:rw,exec,nosuid,size=512m"
+        tmpfs_vscode_server_insiders="/home/vscode/.vscode-server-insiders:rw,exec,nosuid,size=256m"
+        tmpfs_cache="/home/vscode/.cache:rw,nosuid,size=256m"
+        tmpfs_config="/home/vscode/.config:rw,nosuid,size=128m"
+        ;;
+esac
+
 escape_compose_env() {
     printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
 }
@@ -72,8 +90,16 @@ DEVCONTAINER_IMAGE=$container_name
 LOCAL_WORKSPACE_FOLDER=$workspace_root
 CONTAINER_WORKSPACE_FOLDER=$container_workspace_folder
 WORKSPACE_VOLUME=$container_name
+CACHE_VOLUME=$cache_volume
 DEVCONTAINER_GIT_USER_NAME="$(escape_compose_env "$git_user_name")"
 DEVCONTAINER_GIT_USER_EMAIL="$(escape_compose_env "$git_user_email")"
+TMPFS_VSCODE_SERVER=$tmpfs_vscode_server
+TMPFS_VSCODE_SERVER_INSIDERS=$tmpfs_vscode_server_insiders
+TMPFS_CACHE=$tmpfs_cache
+TMPFS_CONFIG=$tmpfs_config
+TMPFS_TMP=$tmpfs_tmp
+TMPFS_VAR_TMP=$tmpfs_var_tmp
+TMPFS_RUN=$tmpfs_run
 EOF
 
 if [ "$skip_build" != "true" ]; then

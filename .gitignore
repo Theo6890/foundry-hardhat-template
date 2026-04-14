@@ -10,6 +10,7 @@ dependencies/
 # JS
 node_modules/
 .openzeppelin/
+.git-tools/
 
 #Hardhat files
 cache_hardhat/

@@ -55,5 +55,5 @@
         }
     },
     "postCreateCommand": "echo Welcome to Cyfrin's dev-container. If you'd like to build your own, you can check out an article Cyfrin have created for you at their blog under https://www.cyfrin.io/blog/reduce-the-risk-of-cyber-attacks-isolated-dev-environments && COREPACK_ENABLE_DOWNLOAD_PROMPT=0 corepack install && pmg setup install",
-    "postStartCommand": "sh .devcontainer/configure-git-identity.sh"
+    "postStartCommand": "sh scripts/setup/devcontainer/post-start.sh"
 }

@@ -5,15 +5,43 @@ services:
         image: ${DEVCONTAINER_IMAGE}
         container_name: ${DEVCONTAINER_NAME}
         command: /bin/sh -c "while sleep 1000; do :; done"
+        read_only: true
         environment:
             DEVCONTAINER_GIT_USER_NAME: ${DEVCONTAINER_GIT_USER_NAME}
             DEVCONTAINER_GIT_USER_EMAIL: ${DEVCONTAINER_GIT_USER_EMAIL}
+            HOME: /tmp/devcontainer-home
+            ZDOTDIR: /home/vscode
+            XDG_CONFIG_HOME: /tmp/devcontainer-config
+            XDG_CACHE_HOME: /tmp/devcontainer-cache
+            XDG_STATE_HOME: /tmp/devcontainer-state
+            GIT_CONFIG_GLOBAL: /tmp/devcontainer-config/git/config
+            COREPACK_HOME: /tmp/devcontainer-cache/corepack
+            COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
+            npm_config_cache: /tmp/devcontainer-cache/npm
+            YARN_CACHE_FOLDER: /tmp/devcontainer-cache/yarn
+        cap_drop:
+            - ALL
+        security_opt:
+            - no-new-privileges:true
+        tmpfs:
+            - ${TMPFS_VSCODE_SERVER}
+            - ${TMPFS_VSCODE_SERVER_INSIDERS}
+            - ${TMPFS_CACHE}
+            - ${TMPFS_CONFIG}
+            - ${TMPFS_TMP}
+            - ${TMPFS_VAR_TMP}
+            - ${TMPFS_RUN}
         volumes:
             - type: volume
               source: workspace
               target: /workspace
+            - type: volume
+              source: devcontainer-cache
+              target: /tmp/devcontainer-cache
 
 volumes:
     workspace:
         external: true
         name: ${WORKSPACE_VOLUME}
+    devcontainer-cache:
+        name: ${CACHE_VOLUME}

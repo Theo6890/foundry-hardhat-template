@@ -13,7 +13,7 @@ remappings = [
 ]
 optimizer = true
 optimizer_runs = 20_000
-evm_version = "cancun"
+evm_version = "osaka"
 
 [profile.ci]
 verbosity = 4

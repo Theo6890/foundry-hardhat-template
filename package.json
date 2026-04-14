@@ -7,15 +7,13 @@
         "test": "test"
     },
     "scripts": {
+        "setup:commit-tools": "sh scripts/setup/git/commit-tools.sh",
         "test": "hardhat test",
-        "prepare": "husky install",
         "typechain-all": "cross-env USE_TYPECHAIN_V5=true npx hardhat typechain; cross-env USE_TYPECHAIN_V5=false npx hardhat typechain"
     },
     "author": "Devan Non <devanon@chainstride.capital>",
     "license": "Apache-2.0",
     "devDependencies": {
-        "@commitlint/cli": "^17.0.2",
-        "@commitlint/config-conventional": "^17.0.2",
         "@morenabarboni/sumo": "^1.2.1",
         "@nomicfoundation/hardhat-chai-matchers": "^2.0.6",
         "@nomicfoundation/hardhat-ethers": "^3.0.5",

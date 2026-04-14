@@ -1,4 +1,11 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+# .husky/commit-msg
 
-npx --no -- commitlint --edit "$1"
+
+commitlint_bin="./.git-tools/commitlint/node_modules/.bin/commitlint"
+commitlint_config="./commitlint.config.js"
+commitlint_node_path="./.git-tools/commitlint/node_modules"
+
+if [ -x "$commitlint_bin" ]; then
+	NODE_PATH="$commitlint_node_path${NODE_PATH:+:$NODE_PATH}" \
+		"$commitlint_bin" --config "$commitlint_config" --edit "$1"
+fi
